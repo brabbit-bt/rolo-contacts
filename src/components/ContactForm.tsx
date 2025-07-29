@@ -277,7 +277,7 @@ export const ContactForm: React.FC<ContactFormProps> = ({
                   <FormField
                     label="Location"
                     name={`meeting-location-${note.id}`}
-                    value={note.location}
+                    value={note.location || ''}
                     onChange={(value) => updateMeetingNote(note.id, 'location', value as string)}
                     placeholder="Meeting location"
                   />

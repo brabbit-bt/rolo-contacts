@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Contact } from '../types/contact';
-import { Edit, Trash2, ExternalLink, Calendar, MapPin, Clock } from 'lucide-react';
+import { Edit, Trash2, ExternalLink, Calendar, MapPin } from 'lucide-react';
 
 interface ContactDetailProps {
   contact: Contact;
