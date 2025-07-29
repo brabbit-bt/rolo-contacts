@@ -35,8 +35,10 @@ async function writeContacts(contacts) {
 app.get('/api/contacts', async (req, res) => {
   try {
     const contacts = await readContacts();
+    console.log(`📊 Returning ${contacts.length} contacts`);
     res.json(contacts);
   } catch (error) {
+    console.error('❌ Error fetching contacts:', error);
     res.status(500).json({ error: 'Failed to fetch contacts' });
   }
 });
@@ -58,6 +60,7 @@ app.get('/api/contacts/:id', async (req, res) => {
 
 app.post('/api/contacts', async (req, res) => {
   try {
+    console.log('📝 Creating new contact:', req.body);
     const contacts = await readContacts();
     const newContact = {
       ...req.body,
@@ -68,9 +71,10 @@ app.post('/api/contacts', async (req, res) => {
     
     contacts.push(newContact);
     await writeContacts(contacts);
-    
+    console.log('✅ Contact created successfully:', newContact.id);
     res.status(201).json(newContact);
   } catch (error) {
+    console.error('❌ Error creating contact:', error);
     res.status(500).json({ error: 'Failed to create contact' });
   }
 });
@@ -158,7 +162,8 @@ app.get('/api/health', (req, res) => {
 });
 
 // Serve static files in production
-if (process.env.NODE_ENV === 'production') {
+if (process.env.NODE_ENV === 'production' || process.env.RENDER) {
+  console.log('📁 Serving static files from dist directory');
   app.use(express.static(path.join(__dirname, '../dist')));
   
   app.get('*', (req, res) => {
