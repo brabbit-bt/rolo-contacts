@@ -12,7 +12,8 @@
     "preview": "vite preview",
     "start": "node server/server.js",
     "install:all": "npm install && cd server && npm install",
-    "build:full": "npm run build"
+    "build:full": "npm run build",
+    "export": "node export_contacts.js"
   },
   "dependencies": {
     "cors": "^2.8.5",
@@ -30,6 +31,7 @@
     "@vitejs/plugin-react": "^4.1.0",
     "autoprefixer": "^10.4.16",
     "concurrently": "^8.2.2",
+    "node-fetch": "^3.3.2",
     "postcss": "^8.4.31",
     "tailwindcss": "^3.3.5",
     "typescript": "^5.2.2",
