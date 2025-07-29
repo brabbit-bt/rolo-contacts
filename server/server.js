@@ -28,7 +28,15 @@ async function readContacts() {
 }
 
 async function writeContacts(contacts) {
-  await fs.writeFile(DB_FILE, JSON.stringify(contacts, null, 2));
+  try {
+    console.log(`💾 Writing ${contacts.length} contacts to: ${DB_FILE}`);
+    await fs.writeFile(DB_FILE, JSON.stringify(contacts, null, 2));
+    console.log('✅ Contacts saved successfully');
+  } catch (error) {
+    console.error('❌ Error writing contacts:', error);
+    console.error('📁 DB_FILE path:', DB_FILE);
+    throw error;
+  }
 }
 
 // Routes
@@ -158,7 +166,12 @@ app.get('/api/contacts/filter/tags', async (req, res) => {
 
 // Health check
 app.get('/api/health', (req, res) => {
-  res.json({ status: 'OK', timestamp: new Date().toISOString() });
+  res.json({ 
+    status: 'OK', 
+    timestamp: new Date().toISOString(),
+    databasePath: DB_FILE,
+    currentDirectory: process.cwd()
+  });
 });
 
 // Serve static files in production
@@ -174,5 +187,6 @@ if (process.env.NODE_ENV === 'production' || process.env.RENDER) {
 app.listen(PORT, () => {
   console.log(`🚀 Rolo Contacts Server running on port ${PORT}`);
   console.log(`📊 Database file: ${DB_FILE}`);
+  console.log(`📁 Current directory: ${process.cwd()}`);
   console.log(`🌐 Health check: http://localhost:${PORT}/api/health`);
 }); 
