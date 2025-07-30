@@ -4,6 +4,7 @@
 import fs from 'fs/promises';
 import path from 'path';
 
+// We'll update this to use Firebase directly
 const API_URL = 'https://rolo-contacts.onrender.com/api/contacts';
 
 async function exportContacts() {

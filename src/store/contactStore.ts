@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { Contact } from '../types/contact';
-import { apiContactService } from '../services/apiContactService';
+import { firebaseContactService } from '../services/firebaseContactService';
 
 interface ContactStore {
   contacts: Contact[];
@@ -31,7 +31,7 @@ export const useContactStore = create<ContactStore>((set, get) => ({
   loadContacts: async () => {
     set({ isLoading: true });
     try {
-      const contacts = await apiContactService.getAll();
+      const contacts = await firebaseContactService.getAll();
       set({ contacts, isLoading: false });
     } catch (error) {
       console.error('Failed to load contacts:', error);
@@ -42,7 +42,7 @@ export const useContactStore = create<ContactStore>((set, get) => ({
   addContact: async (contactData) => {
     set({ isLoading: true });
     try {
-      const newContact = await apiContactService.create(contactData);
+      const newContact = await firebaseContactService.create(contactData);
       set(state => ({
         contacts: [...state.contacts, newContact],
         isLoading: false
@@ -56,7 +56,7 @@ export const useContactStore = create<ContactStore>((set, get) => ({
   updateContact: async (id, contactData) => {
     set({ isLoading: true });
     try {
-      const updatedContact = await apiContactService.update(id, contactData);
+      const updatedContact = await firebaseContactService.update(id, contactData);
       set(state => ({
         contacts: state.contacts.map(contact => 
           contact.id === id ? updatedContact : contact
@@ -73,7 +73,7 @@ export const useContactStore = create<ContactStore>((set, get) => ({
   deleteContact: async (id) => {
     set({ isLoading: true });
     try {
-      await apiContactService.delete(id);
+      await firebaseContactService.delete(id);
       set(state => ({
         contacts: state.contacts.filter(contact => contact.id !== id),
         selectedContact: state.selectedContact?.id === id ? null : state.selectedContact,
@@ -106,7 +106,7 @@ export const useContactStore = create<ContactStore>((set, get) => ({
 
     set({ isLoading: true });
     try {
-      const contacts = await apiContactService.search(searchQuery);
+      const contacts = await firebaseContactService.search(searchQuery);
       set({ contacts, isLoading: false });
     } catch (error) {
       console.error('Failed to search contacts:', error);
@@ -123,7 +123,7 @@ export const useContactStore = create<ContactStore>((set, get) => ({
 
     set({ isLoading: true });
     try {
-      const contacts = await apiContactService.filterByTags(selectedTags);
+      const contacts = await firebaseContactService.filterByTags(selectedTags);
       set({ contacts, isLoading: false });
     } catch (error) {
       console.error('Failed to filter contacts:', error);
