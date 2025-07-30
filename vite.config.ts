@@ -6,5 +6,10 @@ export default defineConfig({
   server: {
     port: 3000,
     open: true
+  },
+  preview: {
+    port: 3000,
+    host: '0.0.0.0',
+    allowedHosts: ['rolo-contacts.onrender.com', '.onrender.com']
   }
 }) 
