@@ -1,0 +1,16 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Allow read and write access to contacts collection
+    // This is a simple rule for a shared contacts app
+    // In production, you might want to add user authentication
+    match /contacts/{contactId} {
+      allow read, write: if true;
+    }
+    
+    // Deny access to all other collections
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+} 
